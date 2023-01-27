@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Product } from "@/lib/product";
 
 export const useFetch = (url: string) => {
-  const [data, setData] = useState<Product>();
+  const [data, setData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -11,8 +11,8 @@ export const useFetch = (url: string) => {
       setLoading(true);
       try {
         const res = await fetch(url);
-        const json = await res.json();
-        setData(json);
+        const { products } = await res.json();
+        setData(products);
       } catch (error: any) {
         console.log(error.message);
         setError("Houve erro ao carregar os dados!");
