@@ -12,7 +12,6 @@ const Home = () => {
 
   const url = `https://mks-challenge-api-frontend.herokuapp.com/api/v1/products?page=${paramsURL.page}&rows=${paramsURL.rows}&sortBy=${paramsURL.sortBy}&orderBy=${paramsURL.orderBy}`;
   const { data, loading, error } = useFetch(url);
-  console.log(data);
 
   return (
     <div>
