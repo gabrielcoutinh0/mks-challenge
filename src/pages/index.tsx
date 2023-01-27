@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useFetch } from "@/hooks/useFetch";
+import Header from "@/components/Header";
 
 const Home = () => {
   const paramsURL = {
@@ -18,6 +19,7 @@ const Home = () => {
       <Head>
         <title>MKS Sistemas</title>
       </Head>
+      <Header />
     </div>
   );
 };
