@@ -6,7 +6,6 @@ export const Section = styled.section`
   grid-template-columns: repeat(1fr);
   justify-items: center;
   gap: ${pixelToRem(25)};
-  height: 100vh;
   padding: 0 60px;
   margin: 40px 0;
 
@@ -91,4 +90,5 @@ export const Button = styled.button`
   font-size: ${pixelToRem(14)};
   line-height: ${pixelToRem(18)};
   color: var(--color-white);
+  cursor: pointer;
 `;

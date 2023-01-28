@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Header from "@/components/Header";
 import Product from "@/components/Product";
+import Footer from "@/components/Footer";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       </Head>
       <Header />
       <Product />
+      <Footer />
     </div>
   );
 };
