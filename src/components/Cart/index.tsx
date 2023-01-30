@@ -23,15 +23,16 @@ import { BsCartX } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
-import { Product, RootState } from "@/lib/product";
+import { Product } from "@/lib/product";
 import { useEffect } from "react";
 import {
-  RemoveCart,
+  RemoveItemCart,
   GetCartTotal,
   AddCart,
-  DecreaseProduct,
+  DecrementItem,
 } from "@/features/productsCart";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { RootState } from "@/reducer/store";
 
 interface CartProps {
   isOpen: boolean;
@@ -76,20 +77,21 @@ export default function Cart({ setIsOpen, isOpen }: CartProps) {
                 <Image
                   src={product.photo}
                   alt={product.name}
-                  layout="fill"
-                  objectFit="contain"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
                 />
               </ProductImg>
               <ProductTitle>{product.name}</ProductTitle>
               <Counter>
-                <Down onClick={() => dispatch(DecreaseProduct(product))}>
-                  -
-                </Down>
-                <ValueCounter>{product.amount}</ValueCounter>
+                <Down onClick={() => dispatch(DecrementItem(product))}>-</Down>
+                <ValueCounter>{product.quantity}</ValueCounter>
                 <Up onClick={() => dispatch(AddCart(product))}>+</Up>
               </Counter>
               <ProductPrice>{currencyFormat(product.price)}</ProductPrice>
-              <CloseProduct onClick={() => dispatch(RemoveCart(product.id))}>
+              <CloseProduct
+                onClick={() => dispatch(RemoveItemCart(product.id))}
+              >
                 <IconContext.Provider value={{ color: "white", size: "10px" }}>
                   <IoCloseSharp />
                 </IconContext.Provider>

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productsCart, { productsFetch } from "@/features/productsCart";
+import productsCart from "@/features/productsCart";
 
 export const store = configureStore({
   reducer: {
@@ -7,4 +7,4 @@ export const store = configureStore({
   },
 });
 
-store.dispatch(productsFetch());
+export type RootState = ReturnType<typeof store.getState>;

@@ -1,21 +1,16 @@
 export type Product = {
+  map(
+    arg0?: (product: Product, key: number) => JSX.Element
+  ): import("react").ReactNode;
+  length?: number;
   id: number;
   name: string;
   brand: string;
   description: string;
   photo: string;
   price: number;
-  amount?: number;
+  quantity?: number;
 };
-
-export interface RootState {
-  cart: {
-    items: Product;
-    isOpen: boolean;
-    totalAmount: number;
-    totalCount: number;
-  };
-}
 
 const paramsURL = {
   page: 1,

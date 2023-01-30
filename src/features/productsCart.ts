@@ -1,11 +1,6 @@
-import { useFetch } from "@/hooks/useFetch";
 import { Product, url } from "@/lib/product";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-export const productsFetch = createAsyncThunk("products/productsFetch", () =>
-  useFetch(url)
-);
 
 interface ProductState {
   items: Product[] | [];
@@ -25,31 +20,32 @@ const productsCart = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    AddCart: (state, action: PayloadAction<any>) => {
-      if (!state.items.find((item) => item.id === action.payload.id)) {
-        state.items.push({ ...action.payload, amount: 1 });
-      } else {
+    AddCart: (state, action: PayloadAction<Product>) => {
+      if (state.items.find((item) => item.id === action.payload.id)) {
         state.items.map((item) => {
-          if (item.amount !== undefined)
-            return item.id === action.payload.id ? item.amount++ : item;
+          if (item.quantity !== undefined)
+            return item.id === action.payload.id ? item.quantity++ : item;
         });
+      } else {
+        state.items.push({ ...action.payload, quantity: 1 });
       }
     },
+
     GetCartTotal: (state) => {
       interface GetCartTotalProps {
         totalAmount: number;
         totalCount: number;
         price: number;
-        amount: number;
+        quantity: number;
       }
 
       let { totalAmount, totalCount } = state.items.reduce(
         (cartTotal: GetCartTotalProps, cartItem: GetCartTotalProps) => {
-          const { price, amount } = cartItem;
-          const itemTotal = price * amount;
+          const { price, quantity } = cartItem;
+          const itemTotal = price * quantity;
 
           cartTotal.totalAmount += itemTotal;
-          cartTotal.totalCount += amount;
+          cartTotal.totalCount += quantity;
           return cartTotal;
         },
         { totalAmount: 0, totalCount: 0 }
@@ -57,19 +53,20 @@ const productsCart = createSlice({
       state.totalAmount = parseInt(totalAmount.toFixed(2));
       state.totalCount = totalCount;
     },
-    RemoveCart: (state, action) => {
+
+    RemoveItemCart: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
 
-    DecreaseProduct: (state, action: PayloadAction<Product>) => {
-      const product = state.items.find((prod) => prod.id === action.payload.id);
-      if (product?.amount === 1) {
-        state.items = state.items.filter((prod) => {
-          return prod.id !== product?.id ? prod : null;
+    DecrementItem: (state, action: PayloadAction<Product>) => {
+      const product = state.items.find((item) => item.id === action.payload.id);
+      if (product?.quantity === 1) {
+        state.items = state.items.filter((item) => {
+          return item.id !== product?.id ? item : null;
         });
       } else {
-        state.items.map((prod) =>
-          prod.id === product?.id ? prod.amount!-- : prod
+        state.items.map((item) =>
+          item.id === product?.id ? item.quantity!-- : item
         );
       }
     },
@@ -80,6 +77,6 @@ const productsCart = createSlice({
   },
 });
 
-export const { AddCart, RemoveCart, GetCartTotal, DecreaseProduct } =
+export const { AddCart, RemoveItemCart, GetCartTotal, DecrementItem } =
   productsCart.actions;
 export default productsCart.reducer;

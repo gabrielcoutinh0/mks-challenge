@@ -14,13 +14,12 @@ import {
 } from "./styles";
 import { FiShoppingBag } from "react-icons/fi";
 import { url } from "@/lib/product";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AddCart } from "@/features/productsCart";
-import { useEffect } from "react";
 import { currencyFormat } from "@/utils/currencyFormat";
 
 export default function Product() {
-  const { data, loading, error } = useFetch(url);
+  const { data, loading } = useFetch(url);
   const dispatch = useDispatch();
 
   return (
@@ -35,8 +34,9 @@ export default function Product() {
                 <Image
                   src={product.photo}
                   alt={product.name}
-                  layout="fill"
-                  objectFit="contain"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
                 />
               </Img>
               <NameAndPrice>

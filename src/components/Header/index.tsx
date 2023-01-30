@@ -3,7 +3,7 @@ import { Container, Logo, ShoppingCart } from "./styles";
 import { TiShoppingCart } from "react-icons/ti";
 import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
-import { RootState } from "@/lib/product";
+import { RootState } from "@/reducer/store";
 
 interface HeaderProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

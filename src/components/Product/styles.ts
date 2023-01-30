@@ -42,6 +42,12 @@ export const Img = styled.div`
   width: ${pixelToRem(189)};
   height: ${pixelToRem(138)};
   margin: auto;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 export const NameAndPrice = styled.div`
