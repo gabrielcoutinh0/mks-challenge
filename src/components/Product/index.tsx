@@ -13,10 +13,11 @@ import {
   Skeleton,
 } from "./styles";
 import { FiShoppingBag } from "react-icons/fi";
-import { currencyFormat, url } from "@/lib/product";
+import { url } from "@/lib/product";
 import { useDispatch, useSelector } from "react-redux";
 import { AddCart } from "@/features/productsCart";
 import { useEffect } from "react";
+import { currencyFormat } from "@/utils/currencyFormat";
 
 export default function Product() {
   const { data, loading, error } = useFetch(url);

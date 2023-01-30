@@ -76,6 +76,25 @@ export const Products = styled.div`
   }
 `;
 
+export const Empty = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: var(--color-white);
+
+  span {
+    text-align: center;
+    font-weight: 400;
+    font-size: ${pixelToRem(28)};
+    line-height: ${pixelToRem(40)};
+  }
+
+  span strong {
+    font-weight: 700;
+  }
+`;
+
 export const ProductBox = styled.div`
   position: relative;
   display: flex;

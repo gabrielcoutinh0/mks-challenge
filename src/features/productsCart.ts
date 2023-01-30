@@ -45,7 +45,6 @@ const productsCart = createSlice({
 
       let { totalAmount, totalCount } = state.items.reduce(
         (cartTotal: GetCartTotalProps, cartItem: GetCartTotalProps) => {
-          console.log(cartTotal);
           const { price, amount } = cartItem;
           const itemTotal = price * amount;
 
