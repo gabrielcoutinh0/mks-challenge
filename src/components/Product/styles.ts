@@ -59,7 +59,7 @@ export const Name = styled.h2`
 `;
 
 export const Price = styled.span`
-  background-color: #373737;
+  background-color: var(--color-secondary);
   border-radius: 5px;
   color: var(--color-white);
   font-weight: 700;
@@ -74,7 +74,6 @@ export const Description = styled.p`
   font-size: ${pixelToRem(10)};
   line-height: ${pixelToRem(12)};
   color: #2c2c2c;
-  //padding-bottom: ${pixelToRem(32)};
 `;
 
 export const Button = styled.button`
@@ -90,5 +89,22 @@ export const Button = styled.button`
   font-size: ${pixelToRem(14)};
   line-height: ${pixelToRem(18)};
   color: var(--color-white);
+  text-transform: uppercase;
   cursor: pointer;
+`;
+
+export const Skeleton = styled.div`
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+  height: 300px;
+  width: 300px;
+
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
 `;

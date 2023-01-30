@@ -42,6 +42,7 @@ export const ShoppingCart = styled.button`
   height: ${pixelToRem(45)};
   background-color: var(--color-white);
   border-radius: ${pixelToRem(8)};
+  cursor: pointer;
 
   span {
     font-weight: 700;
