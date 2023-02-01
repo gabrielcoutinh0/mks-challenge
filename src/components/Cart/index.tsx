@@ -23,29 +23,30 @@ import { BsCartX } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
-import { Product } from "@/lib/product";
 import { useEffect } from "react";
 import {
   RemoveItemCart,
   GetCartTotal,
-  AddCart,
+  AddAndIncrementItemCart,
   DecrementItem,
 } from "@/features/productsCart";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { Product } from "@/lib/product";
 import { RootState } from "@/reducer/store";
 
 interface CartProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Product[] | [];
 }
 
-export default function Cart({ setIsOpen, isOpen }: CartProps) {
-  const { items, totalAmount } = useSelector((state: RootState) => state.cart);
+export default function Cart({ isOpen, setIsOpen, data }: CartProps) {
+  const { totalAmount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(GetCartTotal());
-  }, [items, dispatch]);
+  }, [data, dispatch]);
 
   return (
     <ShoppingCart isOpen={isOpen}>
@@ -60,8 +61,8 @@ export default function Cart({ setIsOpen, isOpen }: CartProps) {
           </IconContext.Provider>
         </Close>
       </TitleAndClose>
-      <Products>
-        {items.length === 0 ? (
+      <Products data-testid="ListProductCart">
+        {data.length === 0 ? (
           <Empty>
             <IconContext.Provider value={{ size: "40px" }}>
               <BsCartX />
@@ -71,8 +72,8 @@ export default function Cart({ setIsOpen, isOpen }: CartProps) {
             </span>
           </Empty>
         ) : (
-          items.map((product: Product, key: number) => (
-            <ProductBox key={key}>
+          data.map((product: Product, key: number) => (
+            <ProductBox key={key} data-testid="itemCart">
               <ProductImg>
                 <Image
                   src={product.photo}
@@ -86,10 +87,16 @@ export default function Cart({ setIsOpen, isOpen }: CartProps) {
               <Counter>
                 <Down onClick={() => dispatch(DecrementItem(product))}>-</Down>
                 <ValueCounter>{product.quantity}</ValueCounter>
-                <Up onClick={() => dispatch(AddCart(product))}>+</Up>
+                <Up
+                  onClick={() => dispatch(AddAndIncrementItemCart(product))}
+                  data-testid="add"
+                >
+                  +
+                </Up>
               </Counter>
               <ProductPrice>{currencyFormat(product.price)}</ProductPrice>
               <CloseProduct
+                data-testid="removeItem"
                 onClick={() => dispatch(RemoveItemCart(product.id))}
               >
                 <IconContext.Provider value={{ color: "white", size: "10px" }}>
@@ -103,7 +110,7 @@ export default function Cart({ setIsOpen, isOpen }: CartProps) {
       <TotalAndFinish>
         <Total>
           <span>Total:</span>
-          <span>{currencyFormat(totalAmount)}</span>
+          <span data-testid="total"> {currencyFormat(totalAmount)}</span>
         </Total>
         <Finish>Finalizar Compra</Finish>
       </TotalAndFinish>

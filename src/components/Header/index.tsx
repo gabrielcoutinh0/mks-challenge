@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export default function Header({ setIsOpen }: HeaderProps) {
-  const { totalCount } = useSelector((state: RootState) => state.cart);
+  const { totalItems } = useSelector((state: RootState) => state.cart);
 
   return (
     <Container>
@@ -18,11 +18,14 @@ export default function Header({ setIsOpen }: HeaderProps) {
         <span>MKS</span>
         <span>Sistemas</span>
       </Logo>
-      <ShoppingCart onClick={() => setIsOpen((prev) => !prev)}>
+      <ShoppingCart
+        onClick={() => setIsOpen((prev) => !prev)}
+        data-testid="shoppingCart"
+      >
         <IconContext.Provider value={{ color: "black", size: "18px" }}>
           <TiShoppingCart />
         </IconContext.Provider>
-        <span>{totalCount}</span>
+        <span>{totalItems}</span>
       </ShoppingCart>
     </Container>
   );

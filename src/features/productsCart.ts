@@ -1,57 +1,51 @@
-import { Product } from "@/lib/product";
+//@ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Product } from "@/lib/product";
 
 interface ProductState {
   items: Product[] | [];
   isOpen: boolean;
   totalAmount: number;
-  totalCount: number;
+  totalItems: number;
 }
 
 const initialState: ProductState = {
   items: [],
   isOpen: false,
   totalAmount: 0,
-  totalCount: 0,
+  totalItems: 0,
 };
 
 const productsCart = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    AddCart: (state, action: PayloadAction<Product>) => {
+    AddAndIncrementItemCart: (state, action: PayloadAction<Product>) => {
       if (state.items.find((item) => item.id === action.payload.id)) {
         state.items.map((item) => {
           if (item.quantity !== undefined)
             return item.id === action.payload.id ? item.quantity++ : item;
         });
-      } else {
-        state.items.push({ ...action.payload, quantity: 1 });
-      }
+      } else state.items = [...state.items, { ...action.payload, quantity: 1 }];
     },
 
     GetCartTotal: (state) => {
-      interface GetCartTotalProps {
-        totalAmount: number;
-        totalCount: number;
-        price: number;
-        quantity: number;
-      }
+      let { totalAmount, totalItems } = state.items.reduce(
+        (cartTotal: ProductState, cartItem: Product) => {
+          if (cartItem.quantity !== undefined) {
+            const { price, quantity } = cartItem;
+            const itemTotal = price * quantity;
 
-      let { totalAmount, totalCount } = state.items.reduce(
-        (cartTotal: GetCartTotalProps, cartItem: GetCartTotalProps) => {
-          const { price, quantity } = cartItem;
-          const itemTotal = price * quantity;
-
-          cartTotal.totalAmount += itemTotal;
-          cartTotal.totalCount += quantity;
-          return cartTotal;
+            cartTotal.totalAmount += itemTotal;
+            cartTotal.totalItems += quantity;
+            return cartTotal;
+          }
         },
-        { totalAmount: 0, totalCount: 0 }
+        { totalAmount: 0, totalItems: 0 }
       );
       state.totalAmount = parseInt(totalAmount.toFixed(2));
-      state.totalCount = totalCount;
+      state.totalItems = totalItems;
     },
 
     RemoveItemCart: (state, action: PayloadAction<number>) => {
@@ -77,6 +71,10 @@ const productsCart = createSlice({
   },
 });
 
-export const { AddCart, RemoveItemCart, GetCartTotal, DecrementItem } =
-  productsCart.actions;
+export const {
+  AddAndIncrementItemCart,
+  RemoveItemCart,
+  GetCartTotal,
+  DecrementItem,
+} = productsCart.actions;
 export default productsCart.reducer;

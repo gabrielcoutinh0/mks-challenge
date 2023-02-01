@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Product } from "@/lib/product";
+import { Product, url } from "@/lib/product";
 
 export const useFetch = (url: string) => {
   const [data, setData] = useState<Product[]>([]);
@@ -24,3 +24,11 @@ export const useFetch = (url: string) => {
 
   return { data, loading, error };
 };
+
+const getProducts = async () => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data.products as Product[];
+};
+
+export { getProducts };

@@ -1,14 +1,11 @@
 export type Product = {
-  map(
-    arg0?: (product: Product, key: number) => JSX.Element
-  ): import("react").ReactNode;
-  length?: number;
   id: number;
   name: string;
   brand: string;
   description: string;
   photo: string;
   price: number;
+
   quantity?: number;
 };
 

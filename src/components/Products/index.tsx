@@ -1,4 +1,3 @@
-import { useFetch } from "@/hooks/useFetch";
 import Image from "next/image";
 import {
   Article,
@@ -13,13 +12,17 @@ import {
   Skeleton,
 } from "./styles";
 import { FiShoppingBag } from "react-icons/fi";
-import { url } from "@/lib/product";
 import { useDispatch } from "react-redux";
-import { AddCart } from "@/features/productsCart";
+import { AddAndIncrementItemCart } from "@/features/productsCart";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { Product } from "@/lib/product";
 
-export default function Product() {
-  const { data, loading } = useFetch(url);
+interface ProductProps {
+  data: Product[] | [];
+  loading: boolean;
+}
+
+export default function Products({ data, loading }: ProductProps) {
   const dispatch = useDispatch();
 
   return (
@@ -45,7 +48,10 @@ export default function Product() {
               </NameAndPrice>
               <Description>{product.description}</Description>
             </Info>
-            <Button onClick={() => dispatch(AddCart(product))}>
+            <Button
+              data-testid="buy"
+              onClick={() => dispatch(AddAndIncrementItemCart(product))}
+            >
               <FiShoppingBag />
               COMPRAR
             </Button>
