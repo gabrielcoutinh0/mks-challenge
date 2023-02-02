@@ -24,11 +24,3 @@ export const useFetch = (url: string) => {
 
   return { data, loading, error };
 };
-
-const getProducts = async () => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data.products as Product[];
-};
-
-export { getProducts };
